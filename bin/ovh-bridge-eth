@@ -1,0 +1,49 @@
+#!/bin/sh
+
+BRDEV=br0
+ETHDEV=eth0
+
+function exit_already_exist()
+{
+  echo "device $BRDEV already exists"
+  exit 1
+}
+
+ip link show $BRDEV && exit_already_exist 
+i
+BR_CFG=/etc/sysconfig/network-scripts/ifcfg-$BRDEV
+ETH_CFG=/etc/sysconfig/network-scripts/ifcfg-$ETHDEV
+
+yum install bridge-utils -y
+
+# copy cloned MACaddr for just in case we're a virtualized host
+grep MACADDR= $ETH_CFG > /tmp/macaddr
+
+# copy without MACADDR
+grep -v MACADDR $ETH_CFG > $BR_CFG
+
+# switch device
+sed -i s/DEVICE=$ETHDEV/DEVICE=$BRDEV/g $BR_CFG
+
+# configure as bridge, with no STP
+echo STP=no >> $BR_CFG
+echo TYPE=Bridge >> $BR_CFG
+
+# configure ethernet device as a slave on the bridge
+cat >$ETH_CFG <<EOF
+DEVICE=$ETHDEV
+ONBOOT=yes
+TYPE=Ethernet
+IPV6INIT=no
+USERCTL=no
+BRIDGE=$BRDEV
+EOF
+
+# and restore the original MACADDR (if any)
+cat /tmp/macaddr >> $ETH_CFG
+
+echo "eth0 over br0 configured"
+echo "Rebooting in 10 seconds, CTRL+C to cancel"
+
+sleep 10
+reboot

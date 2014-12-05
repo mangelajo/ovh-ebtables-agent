@@ -1,0 +1,10 @@
+# This file should be owned by (and only-writeable by) the root user
+
+# format seems to be
+# cmd-name: filter-name, raw-command, user, args
+
+[Filters]
+
+ebtables_restore: CommandFilter, ebtables-restore, root
+ebtables_save: CommandFilter, ebtables-save, root
+

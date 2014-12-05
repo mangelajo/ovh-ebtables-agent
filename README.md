@@ -43,6 +43,9 @@ This is an example of ebtables configured by the agent::
     -A POSTROUTING -s fa:16:3e:9e:ec:85 -j snat --to-src 2:0:0:9f:4e:6f --snat-arp --snat-target ACCEPT 
 
 
+Ebtables does the work, but I eventually want to experiment with openvswitch + openflow for 
+performance reasons.
+
 Problem 2
 ---------
 We have a single NIC, and we need to setup tenant networks and controller traffic
@@ -57,7 +60,7 @@ from::
 to::
 
     eth0 -- br0[IP]
-             |__veth-br <----------> br-external
+             <---veth-br  . . .  veth-neutron --> br-external
 
 Problem 3
 ---------
