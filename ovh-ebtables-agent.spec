@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 %global commit 2ae52f89059b95ac7ed5713ee1dd3cc53a31f017
+=======
+%global commit 819a471a76d658353d9e90598ac8b32ce4298d0d
+>>>>>>> 2ae52f89059b95ac7ed5713ee1dd3cc53a31f017
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           ovh-ebtables-agent
