@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-%global commit 2ae52f89059b95ac7ed5713ee1dd3cc53a31f017
-=======
-%global commit 819a471a76d658353d9e90598ac8b32ce4298d0d
->>>>>>> 2ae52f89059b95ac7ed5713ee1dd3cc53a31f017
+%global commit fceb3729858b3d65f6c96e815dddeafeedb4a5c3 
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           ovh-ebtables-agent
-Version:        2014.2.1
+Version:        2014.2
 Release:        1%{?dist}
 Summary:        OpenStack Networking agent to work with OVH network
 
@@ -40,15 +36,18 @@ git init . # ugly workaround for pbr..
 
 %install
 %{__python} setup.py install -O1 --skip-build --prefix %{_prefix} --root %{buildroot} 
-#--home %{buildroot} 
 
 # Move config files to proper location
 install -d -m 755 %{buildroot}%{_sysconfdir}/neutron
 install -d -m 755 %{buildroot}%{_sysconfdir}/neutron/rootwrap.d
-#mv %{buildroot}/usr/etc/neutron/* %{buildroot}%{_sysconfdir}/neutron
-#mv %{buildroot}/usr/etc/neutron/rootwrap.d/* %{buildroot}%{_sysconfdir}/neutron/rootwrap.d/
+mv %{buildroot}/usr/etc/neutron/*.ini %{buildroot}%{_sysconfdir}/neutron
+mv %{buildroot}/usr/etc/neutron/rootwrap.d/* %{buildroot}%{_sysconfdir}/neutron/rootwrap.d/
 
-mv %{buildroot}/usr/lib/systemd/system/* %{buildroot}%{_unitdir}
+%post
+if [ $1 -eq 1 ] ; then
+    # Initial installation
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
 
 %preun
 if [ $1 -eq 0 ] ; then
@@ -77,6 +76,9 @@ fi
 %dir %{_sysconfdir}/neutron
 %dir %{_sysconfdir}/neutron/rootwrap.d
 %config(noreplace) %{_sysconfdir}/neutron/rootwrap.d/*
+%{python_sitelib}/ovhagent-%{version}*.egg-info
+%{python_sitelib}/ovhagent/*
+
 
 %changelog
 * Fri Dec 5 2014 Miguel Angel Ajo <miguelangel@ajo.es> 2014.2.1-1
