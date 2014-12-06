@@ -6,7 +6,7 @@ After=syslog.target network.target
 Type=forking
 PIDFile=/var/lib/neutron/ovh-ebtables-agent.pid
 User=neutron
-ExecStart=/usr/bin/ovh-ebtables-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/ovh_ebtables_agent.ini --log-file /var/log/neutron/ovh-ebtables-agent.log --pid_file=/var/lib/neutron/ovh-ebtables-agent.pid
+ExecStart=/bin/ovh-ebtables-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/ovh_ebtables_agent.ini --log-file /var/log/neutron/ovh-ebtables-agent.log --pid_file=/var/lib/neutron/ovh-ebtables-agent.pid
 PrivateTmp=false
 KillMode=process
 
