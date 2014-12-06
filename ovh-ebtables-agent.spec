@@ -3,7 +3,7 @@
 
 Name:           ovh-ebtables-agent
 Version:        2014.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenStack Networking agent to work with OVH network
 
 Group:          Applications/System
@@ -84,6 +84,10 @@ fi
 
 
 %changelog
+* Sat Dec 5 2014 Miguel Angel Ajo <miguelangel@ajo.es> 2014.2.1-4
+- ovh-bridge-eth now also fixes device name for bride when eth0 is
+  quoted.
+
 * Sat Dec 5 2014 Miguel Angel Ajo <miguelangel@ajo.es> 2014.2.1-3
 - Fixed missing dependencies to ebtables and bridge-utils
 - Fixed .service reference to agent
