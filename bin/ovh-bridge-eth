@@ -24,6 +24,7 @@ grep -v MACADDR $ETH_CFG > $BR_CFG
 
 # switch device
 sed -i s/DEVICE=$ETHDEV/DEVICE=$BRDEV/g $BR_CFG
+sed -i s/DEVICE=\"$ETHDEV\"/DEVICE=$BRDEV/g $BR_CFG
 
 # configure as bridge, with no STP
 echo STP=no >> $BR_CFG
