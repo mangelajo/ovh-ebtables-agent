@@ -26,7 +26,7 @@ EBTABLES_TEMPLATE = (
 :POSTROUTING ACCEPT
 """)
 
-PREROUTING_DNAT = ("-A PREROUTING -p IPv4 --ip-dst %(ip)s -j dnat "
+PREROUTING_DNAT = ("-A PREROUTING -p IPv4 -d %(ovh_vmac)s --ip-dst %(ip)s -j dnat "
                    "--to-dst %(mac)s --dnat-target ACCEPT\n"
                    "-A PREROUTING -p ARP --arp-ip-dst %(ip)s -j dnat "
                    "--to-dst %(mac)s --dnat-target ACCEPT\n")
