@@ -1,9 +1,9 @@
-%global commit 9f74fdc8e0801b91596354a7baaeb6fca7f18a65
+%global commit 56bf16c7849ea509296497ced621737e1f967108
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           ovh-ebtables-agent
 Version:        2014.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenStack Networking agent to work with OVH network
 
 Group:          Applications/System
@@ -84,11 +84,16 @@ fi
 
 
 %changelog
-* Sat Dec 5 2014 Miguel Angel Ajo <miguelangel@ajo.es> 2014.2.1-4
+* Fri Dec 19 2014 Miguel Angel Ajo <miguelangel@ajo.es> 2014.2.1-5
+- Fixed issue where instances couldn't ping it's own floating ip
+  because the ebtables rules were also modifying packages if
+  you run the l3-agent in the same compute node the vm is.
+
+* Sat Dec 6 2014 Miguel Angel Ajo <miguelangel@ajo.es> 2014.2.1-4
 - ovh-bridge-eth now also fixes device name for bride when eth0 is
   quoted.
 
-* Sat Dec 5 2014 Miguel Angel Ajo <miguelangel@ajo.es> 2014.2.1-3
+* Sat Dec 6 2014 Miguel Angel Ajo <miguelangel@ajo.es> 2014.2.1-3
 - Fixed missing dependencies to ebtables and bridge-utils
 - Fixed .service reference to agent
   
