@@ -62,6 +62,8 @@ to::
     eth0 -- br0[IP]
              <---veth-br  . . .  veth-neutron --> br-external
 
+Please check: bin/ovh-bridge-eth
+
 Problem 3
 ---------
 It also has another peculiarity, the gateway for those IP addresses is outside of it's
@@ -69,7 +71,24 @@ own subnet (so you can use the full block instead of saving one for the router, 
 for broadcast). This case is yet not well suported in the neutron-l3-agent, that needs
 to setup an onlink route to the gateway before the default route through the gateway.
 
-This is handled by a patch to the l3 agent.
+This is handled by a patch to the l3 agent (see neutron-patches/onlink_routes.patch
 
 
+Problem 4
+---------
 
+Fragmentation due to VXLAN/GRE overhead in ovh network doesn't work very well, one
+solution, that works very well, is to configure tenant networks mtu to 1450 (VXLAN),
+but then, the l3-agent doesn't configure the internal port correctly yet in neutron
+(mtu support being added during Kilo/Liberty), please use:
+neutron-patches/mtu.kind_of_patch
+
+And also configure /etc/neutron/dhcp-agent.ini::
+    
+   masq_config_file = /etc/neutron/dnsmasq-neutron.conf
+
+ 
+
+And /etc/neutron/dnsmasq-neutron.conf::
+
+    dhcp-option-force=26,1450

@@ -1,0 +1,23 @@
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1473-                                     namespace=ri.ns_name)
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1474-            ns_ipd.route.delete_gateway(table=snat_idx)
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1475-            ns_ipr.delete_rule_priority(snat_idx)
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1476-        except Exception:
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1477-            LOG.exception(_('DVR: removed snat failed'))
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1478-
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1479-    def _internal_network_added(self, ns_name, network_id, port_id,
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1480-                                internal_cidr, mac_address,
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1481-                                interface_name, prefix, is_ha=False):
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1482-        if not ip_lib.device_exists(interface_name,
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1483-                                    root_helper=self.root_helper,
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1484-                                    namespace=ns_name):
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1485-            self.driver.plug(network_id, port_id, interface_name, mac_address,
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1486-                             namespace=ns_name,
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1487-                             prefix=prefix)
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1488-	    ip = ip_lib.IPWrapper(root_helper=self.root_helper,
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1489-                      namespace=ns_name)
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1490-
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1491-
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py-1492-	    ns_dev = ip.device(interface_name)
+
+>>> THIS IS WHAT YOU NEED TO ADD FOR VXLAN
+/usr/lib/python2.7/site-packages/neutron/agent/l3_agent.py:1493:	    ns_dev.link.set_mtu(1450)
